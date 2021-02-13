@@ -43,8 +43,8 @@
         <form action="../controller/login.php" method="POST">
             <img class="mb-4" src="../assets/icon.png" alt="" width="72">
             <h1 class="h3 mb-3 fw-normal">Por favor, inicie sesión</h1>
-            <label for="inputEmail" class="visually-hidden">Documento</label>
-            <input type="text" name="document" id="inputEmail" class="form-control" placeholder="Documento" required autofocus>
+            <label for="inputEmail" class="visually-hidden">Usuario</label>
+            <input type="text" name="usuario" id="inputEmail" class="form-control" placeholder="Usuario" required autofocus>
             <label for="inputPassword" class="visually-hidden">Contraseña</label>
             <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
             <!-- <label>

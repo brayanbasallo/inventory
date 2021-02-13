@@ -3,5 +3,7 @@ session_start();
 include_once "../model/Admin.php";
 $obj_admin = new Admin;
 
-$page = 'productos';
+/* $obj_admin->verificar_login(); */
+
+$page = 'caja';
 include_once('../view/layout.php');

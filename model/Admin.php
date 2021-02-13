@@ -14,7 +14,11 @@ class Admin
             $this->verificar_login();
         }
 
-
+        /* include_once('../config.php');
+        $this->host = $host;
+        $this->user = $user;
+        $this->password = $password;
+        $this->data_base = $data_base; */
         $this->loadDataConnection();
     }
     /**
@@ -22,7 +26,7 @@ class Admin
      */
     private function loadDataConnection()
     {
-        include_once('../config.php');
+        include('../config.php');
         $this->host = $host;
         $this->user = $user;
         $this->password = $password;
@@ -40,24 +44,24 @@ class Admin
      * esta funcion se encarga de hacer el login del usuario
      * @return string si no se autentica correctamente devuelve el motivo
      */
-    function login($document, $password)
+    function login($usuario, $password)
     {
         $exit = '';
         $connection = $this->return_connection();
-        $sql = "SELECT * FROM usuarios WHERE usuario='$document'";
+        $sql = "SELECT * FROM usuarios WHERE usuario='$usuario'";
         $result = $connection->query($sql);
         if ($result) {
-            $result = mysqli_fetch_array($result);
-            if ($password == $result['password']) {
-                session_start();
-                $_SESSION['usuario'] = $result;
-                header('location: caja.php');
-            } else {
-                if ($result == NULL) {
-                    $exit = 'El usuario no existe';
+            $result = $result->fetch_all(MYSQLI_ASSOC);
+            if (count($result) > 0) {
+                if ($password == $result[0]['password']) {
+                    session_start();
+                    $_SESSION['usuario'] = $result;
+                    header('location: caja.php');
                 } else {
                     $exit = 'La contraseña es incorrecta';
                 }
+            } else {
+                $exit = 'El usuario no existe';
             }
         } else {
             $exit = 'Error en el servidor, por favor vuelve a intentarlo';
@@ -69,6 +73,7 @@ class Admin
      */
     function sign_out()
     {
+        unset($_SESSION['usuario']);
         session_destroy();
         header('Location: login.php');
     }
@@ -80,5 +85,19 @@ class Admin
         if (!isset($_SESSION['usuario'])) {
             $this->sign_out();
         }
+    }
+    /**
+     * ejecuta el un sql para guardar datos
+     * 
+     */
+    function guardar($sql)
+    {
+        $exit = false;
+        $connection = $this->return_connection();
+        $result = $connection->query($sql);
+        if ($connection->affected_rows > 0) {
+            $exit = true;
+        }
+        return $exit;
     }
 }
