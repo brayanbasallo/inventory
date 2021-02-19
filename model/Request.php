@@ -32,7 +32,7 @@ class Request
         $connection = $this->obj_admin->return_connection();
         $sql = "$sql";
         $results = $connection->query($sql);
-        $exit = $results->fetch_all();
+        $exit = $results->fetch_all(MYSQLI_ASSOC);
         $connection->close();
         return $exit;
     }

@@ -2,7 +2,7 @@
     <h2>Administracion</h2>
     <p>Aqui podras tener control sobre los usuarios y productos</p>
 </div>
-<div class="row d-flex justify-content-between text-center mt-2">
+<div class=" d-flex justify-content-between text-center mt-2">
     <div class="col-4 ">
         <a href="productos.php" class="nav-link text-secondary fw-bold">Productos</a>
     </div>
@@ -14,7 +14,7 @@
     </div>
 </div>
 <hr>
-<div class="row mt-3">
+<div class="p-2">
     <?php
     include('components/' . $admin . '.php');
     ?>

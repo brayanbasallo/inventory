@@ -4,40 +4,41 @@
         <div class="row d-flex">
             <div class="form-group col-6">
                 <label for="">Nombre</label>
-                <input type="text" class="form-control" name="nombre" id="" placeholder="Nombre del usuario">
+                <input type="text" class="form-control" name="nombre" placeholder="Nombre del usuario" required>
             </div>
             <div class="form-group col-6">
                 <label for="">Usuario</label>
-                <input type="text" class="form-control" name="usuario" id="" placeholder="Apodo del usuario">
+                <input type="text" class="form-control" name="usuario" placeholder="Apodo del usuario" required>
             </div>
         </div>
         <div class="row d-flex">
             <div class="form-group col-6">
                 <label for="">Documento</label>
-                <input type="number" class="form-control" name="documento" id="" placeholder="Número de documento">
+                <input type="number" class="form-control" name="documento" placeholder="Número de documento" required>
             </div>
             <div class="form-group col-6">
                 <label for="">Cargo</label>
-                <select class="form-select" name="cargo" id="">
-                    <option selected>Seleccionar</option>
+                <select class="form-select" name="cargo">
+                    <option disabled>Seleccionar</option>
                     <?php
 
                     foreach ($cargos as $cargo) {
                         # code...
-
+                        if ($cargo['id_cargo'] != 3) {
                     ?>
-                        <option value="<?php echo $cargo['id_cargo'] ?>"><?php echo $cargo['nombre_cargo'] ?></option>
+                            <option value="<?php echo $cargo['id_cargo'] ?>"><?php echo $cargo['nombre_cargo'] ?></option>
                     <?php
+                        }
                     }
                     ?>
                 </select>
             </div>
         </div>
         <div class="form-group"><label for="">Contraseña</label>
-            <input type="password" name="password" id="" placeholder="contraseña" class="form-control">
+            <input type="password" name="password" placeholder="contraseña" class="form-control" required>
         </div>
         <div class="form-group mt-2">
-            <input type="submit" value="Registrar usuario" class="btn btn-primary col-12">
+            <input type="submit" value="Registrar usuario" name="new" class="btn btn-primary col-12">
         </div>
     </form>
 </div>
@@ -61,28 +62,34 @@
                 $contador = 0;
                 foreach ($usuarios as $usuario) {
                     $contador++;
+                    if ($usuario['id_cargo'] != 3) {
                 ?>
-                    <tr>
-                        <td><?php echo $contador ?></td>
-                        <td><?php echo $usuario['documento'] ?></td>
-                        <td><?php echo $usuario['nombre'] ?></td>
-                        <td><?php echo $usuario['usuario'] ?></td>
-                        <td>
-                            <?php
+                        <tr>
+                            <td><?php echo $contador ?></td>
+                            <td><?php echo $usuario['documento'] ?></td>
+                            <td><?php echo $usuario['nombre'] ?></td>
+                            <td><?php echo $usuario['usuario'] ?></td>
+                            <td>
+                                <?php
 
-                            foreach ($cargos as $cargo) {
-                                # code...
-                                if ($cargo['id_cargo'] == $usuario['id_cargo']) {
-                                    echo $cargo['nombre_cargo'];
+                                foreach ($cargos as $cargo) {
+                                    # code...
+                                    if ($cargo['id_cargo'] == $usuario['id_cargo']) {
+                                        echo $cargo['nombre_cargo'];
+                                    }
                                 }
-                            }
-                            ?>
-                        </td>
-                        <td><a href="<?php echo $usuario['id'] ?>">Editar</a></td>
-                        <td><a href="<?php echo $usuario['id'] ?>">Eliminar</a></td>
+                                ?>
+                            </td>
+                            <td><a href="<?php echo $usuario['documento'] ?>">Editar</a></td>
+                            <td>
+                                <form action="usuarios.php?documento=<?php echo $usuario['documento']; ?>" method="POST">
+                                    <input type="submit" value="delete" name="delete" class="btn p-0 material-icons ">
+                                </form>
+                            </td>
 
-                    </tr>
+                        </tr>
                 <?php
+                    }
                 }
                 ?>
             </tbody>

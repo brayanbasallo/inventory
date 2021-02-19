@@ -10,7 +10,7 @@
             <textarea name="descripcion" id="" cols="30" rows="3" class="form-control" placeholder="Información sobre el contenido de la bodega"></textarea>
         </div>
         <div class="form-group mt-2">
-            <input type="submit" value="Agregar bodega" class="btn btn-primary col-12">
+            <input type="submit" value="Agregar bodega" name="new" class="btn btn-primary col-12">
         </div>
     </form>
 </div>
@@ -37,8 +37,11 @@
                         <td><?php echo $bodega['nombre'] ?></td>
                         <td><?php echo $bodega['descripcion'] ?></td>
                         <td><a href="<?php echo $bodega['id'] ?>">Editar</a></td>
-                        <td><a href="<?php echo $bodega['id'] ?>">Eliminar</a></td>
-
+                        <td>
+                            <form action="bodegas.php?id=<?php echo $bodega['id']; ?>" method="POST">
+                                <input v-on:click="eliminarBodega" type="submit" value="delete" name="delete" class="btn p-0 material-icons ">
+                            </form>
+                        </td>
                     </tr>
                 <?php
                 }

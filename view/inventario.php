@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
     <h2>Inventario</h2>
     <p>Aqui puedes observar los productos que tienes almacenados categorizados por su bodega.</p>
 </div>
@@ -8,13 +8,7 @@
         <select name="" id="" class="form-select">
             <option selected>Seleccionar</option>
 
-            <?php
-            foreach ($bodegas as $bodega) {
-            ?>
-                <option value="<?php echo $bodega['id']; ?>"><?php echo $bodega['nombre']; ?></option>
-            <?php
-            }
-            ?>
+            
         </select>
     </div>
     <div class="col-8 ">
@@ -55,4 +49,5 @@
             </tbody>
         </table>
     </div>
-</div>
+</div> -->
+<component-productos admin="false"></component-productos>
