@@ -142,6 +142,7 @@ CREATE TABLE IF NOT EXISTS `productos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- La exportación de datos fue deseleccionada.
+INSERT INTO `software_proyecto`.`usuarios` (`documento`, `usuario`, `nombre`, `password`, `id_cargo`) VALUES ('11231312', 'admin', 'admin', 'admin', '3');
 
 -- Volcando estructura para procedimiento software_proyecto.registrar_inicio
 DROP PROCEDURE IF EXISTS `registrar_inicio`;
