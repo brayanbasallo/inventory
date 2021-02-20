@@ -1,5 +1,6 @@
-<?php
-$host = "localhost";
-$user = "root";
-$password = "toor";
-$data_base = "software_proyecto";
+<?php 
+            $host = 'localhost';
+            $user = 'root';
+            $password = 'toor';
+            $data_base = 'bdps';
+            

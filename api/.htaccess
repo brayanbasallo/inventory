@@ -5,3 +5,4 @@ RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteRule ^productos/(.*)$ productos.php?categoria=$1 [QSA]
 RewriteRule ^categorias$ categorias.php [QSA]
+RewriteRule ^buscar/(.*)$ buscar.php?buscar=$1 [QSA]

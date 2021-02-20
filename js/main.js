@@ -4,17 +4,27 @@ Vue.component('component-store', {
     data() {
         return {
             carrito: {},
-            buscarProducto: '',
-            productosEncontrados: {}
+            shoppingCart: [],
+            products: {},
+            search: '',
+            cantidad: 0,
         }
     },
     methods: {
-        search(input) {
-            if (input.length < 1) { return [] }
-            return countries.filter(country => {
-                return country.toLowerCase()
-                    .startsWith(input.toLowerCase())
-            })
+        searchProduct() {
+            let url = `../api/buscar/${this.search}`
+            fetch(url).then(response => response.json())
+                .then(result => {
+                    this.products = result.products
+                })
+        },
+        addCart(product, index) {
+            if (this.cantidad <= (product.stock * 1)) {
+                product.cantidad = this.cantidad
+                this.shoppingCart.push(product)
+                this.products[index].stock = this.products[index].stock - this.cantidad
+            }
+            console.log(this.products);
         }
     },
     template: `
@@ -26,11 +36,37 @@ Vue.component('component-store', {
     <div class="pb-4">
     <label for="">Buscar producto</label>
         <div class="input-group">
-            <input type="search" class="form-control rounded" placeholder="Buscar" aria-label="Search"
+            <input v-model="search" @keyup="searchProduct" type="search" class="form-control rounded" placeholder="Buscar" aria-label="Search"
             aria-describedby="search-addon" />
             <button type="button" class="btn btn-outline-primary">buscar</button>
         </div>
-        <autocomplete :search="search"></autocomplete>
+    </div>
+    <div>
+        <h2>Agregar producto</h2>
+        <div class="table-responsive">
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Precio Unidad</th>
+                    <th>Cantidad disponible</th>
+                    <th>Cantidad a agregar</th>
+                    <th>Agregar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(product, index) in products" :key="product.id_producto">
+                    <td>{{product.id_producto}}</td>
+                    <td>{{product.nombre}}</td>
+                    <td>$ {{product.precio_unitario}}</td>
+                    <td>{{product.stock}}</td>
+                    <td><input v-model="cantidad" type="number" name="number"  class="form-control" placeholder="Cantidad"></td>
+                    <td><button @click="addCart(product, index)" type="button" class="btn btn-primary">Agregar</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     </div>
 
     <h2>Productos agregados</h2>
@@ -38,7 +74,7 @@ Vue.component('component-store', {
         <table class="table table-striped table-sm">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>Código</th>
                     <th>Nombre</th>
                     <th>Precio Unidad</th>
                     <th>Cantidad</th>
@@ -47,21 +83,13 @@ Vue.component('component-store', {
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1,001</td>
-                    <td>Lorem</td>
-                    <td>ipsum</td>
-                    <td>dolor</td>
-                    <td>sit</td>
-                    <td>x</td>
-                </tr>
-                <tr>
-                    <td>1,002</td>
-                    <td>amet</td>
-                    <td>consectetur</td>
-                    <td>adipiscing</td>
-                    <td>elit</td>
-                    <td>x</td>
+                <tr v-for="product in shoppingCart">
+                    <td>{{product.id_producto}}</td>
+                    <td>{{product.nombre}}</td>
+                    <td>$ {{product.precio_unitario}}</td>
+                    <td>{{product.cantidad}}</td>
+                    <td>$ {{product.cantidad * product.precio_unitario}}</td>
+                    <td>$ remove</td>
                 </tr>
             </tbody>
         </table>
