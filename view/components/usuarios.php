@@ -80,7 +80,9 @@
                                 }
                                 ?>
                             </td>
-                            <td><a href="<?php echo $usuario['documento'] ?>">Editar</a></td>
+                            <td>
+                                <a href="editarUsuario.php?id=<?php echo $usuario['documento'] ?>" class="text-primary">Editar</a>
+                            </td>
                             <td>
                                 <form action="usuarios.php?documento=<?php echo $usuario['documento']; ?>" method="POST">
                                     <input type="submit" value="delete" name="delete" class="btn p-0 material-icons ">

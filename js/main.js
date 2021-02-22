@@ -1,13 +1,18 @@
 
-
 Vue.component('component-store', {
     data() {
         return {
-            carrito: {},
-            shoppingCart: [],
+            shoppingCart: new Object,
             products: {},
             search: '',
             cantidad: 0,
+            descuento: 0,
+            modal: false,
+            cambio: false,
+            total: 0,
+            efectivo: 0,
+            formFacturar: true,
+            response: ''
         }
     },
     methods: {
@@ -18,17 +23,140 @@ Vue.component('component-store', {
                     this.products = result.products
                 })
         },
-        addCart(product, index) {
+        deletToCart(index) {
+            this.$delete(this.shoppingCart, index)
+        },
+        addCart(product) {
+            let nuevo = true
             if (this.cantidad <= (product.stock * 1)) {
-                product.cantidad = this.cantidad
-                this.shoppingCart.push(product)
-                this.products[index].stock = this.products[index].stock - this.cantidad
+                if (Object.keys(this.shoppingCart).length == 0) {
+                    product.cantidad = this.cantidad
+                    this.$set(this.shoppingCart, Object.keys(this.shoppingCart).length, product)
+                } else {
+                    for (let i = 0; i < Object.keys(this.shoppingCart).length; i++) {
+                        if (this.shoppingCart[i].id_producto == product.id_producto) {
+                            let cantidad = (this.shoppingCart[i].cantidad * 1) + (this.cantidad * 1)
+                            if (cantidad <= this.shoppingCart[i].stock) {
+                                this.shoppingCart[i].cantidad = cantidad
+                                this.shoppingCart = Object.assign({}, this.shoppingCart)
+                            } else {
+                                this.modal = `Stock limitado ya agregaste ${this.shoppingCart[i].cantidad}, solo puedes agregar ${this.shoppingCart[i].stock}, intentas agregar ${cantidad}`
+                            }
+                            nuevo = false
+                        }
+
+                    }
+                    this.loadTotal()
+                    if (nuevo) {
+                        product.cantidad = this.cantidad
+                        this.$set(this.shoppingCart, Object.keys(this.shoppingCart).length, product)
+                    }
+                }
+            } else {
+                this.modal = "No hay suficiente stock"
             }
-            console.log(this.products);
+            this.loadTotal()
+        },
+        loadTotal() {
+            let total = 0
+            let porcentaje = parseFloat(`0.${this.descuento}`)
+            for (let i = 0; i < Object.keys(this.shoppingCart).length; i++) {
+                total += this.shoppingCart[i].precio_unitario * this.shoppingCart[i].cantidad
+            }
+            porcentaje = total * porcentaje;
+            this.total = total - porcentaje
+        },
+        finailizarCompra() {
+            let url = '../api/facturar.php'
+            let data = {
+                total: this.total,
+                descuento: this.descuento,
+                productos: this.shoppingCart
+            }
+            if (Object.keys(this.shoppingCart).length > 0) {
+                fetch(url, {
+                    method: "POST",
+                    headers: {
+                        'Accept': 'application/json, text/plain, */*',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then(response => response.json())
+                    .then(result => {
+                        if (result.status == 200) {
+                            this.shoppingCart = {}
+                            this.product = {}
+                            this.formFacturar = false
+                            this.loadTotal()
+                            this.response = "Se ha registrado correctamente"
+                        } else if (result.status == 500) {
+                            this.response = "Vuelve a intentarlo"
+                        }
+                    }).catch(response => {
+                        console.log(response);
+                    })
+            } else {
+                this.response = "Tienes que agregar productos para poder continuar"
+            }
+        },
+        nuevaCompra() {
+            this.cambio = false
+            this.formFacturar = true
         }
     },
     template: `
-<div>
+    <div>
+    <div class="modal d-block" tabindex="-1" v-if="cambio" style="background:#0d6efd33">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Finalizar Venta</h5>  
+                </div>
+                <div class="modal-body">
+                    <div v-if="formFacturar">
+                        <div class="form-group">
+                            <label for="">Efectivo</label>
+                            <input v-model="efectivo" type="text" class="form-control rounded" placeholder="dinero con el que paga el cliente" />
+                        </div>
+                        <div class="">
+                            <p>Total a pagar: $ {{total}}</p>
+                            <p>Cambio: $ {{(efectivo - total)>0?efectivo - total:0}}</p>
+                            <p>Descuento: {{descuento}} %</p>
+                            <p>{{response}}</p>
+                        </div>
+                    </div>
+                    <div v-else>
+                        {{response}}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div v-if="formFacturar">
+                        <button type="button" @click="cambio=false" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" @click="finailizarCompra" class="btn btn-primary" data-dismiss="modal">Continuar</button>
+                    </div>
+                    <div v-else>
+                        <button type="button" @click="nuevaCompra" class="btn btn-primary" data-dismiss="modal">Seguir facturando</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal d-block" tabindex="-1" v-if="modal" style="background:#0d6efd33">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Advertencia</h5>
+                    
+                </div>
+                <div class="modal-body">
+                    <p>{{modal}}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" @click="nuevaCompra" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Caja</h1>
     </div>
@@ -39,6 +167,13 @@ Vue.component('component-store', {
             <input v-model="search" @keyup="searchProduct" type="search" class="form-control rounded" placeholder="Buscar" aria-label="Search"
             aria-describedby="search-addon" />
             <button type="button" class="btn btn-outline-primary">buscar</button>
+        </div>
+        <div class="form-group">
+            <label for="">Descuento en %</label>
+            <input @blur="loadTotal" v-model="descuento" type="text" class="form-control rounded" placeholder="descuento %" />
+        </div>
+        <div class="form-group pt-1">
+            <button class="btn btn-primary col-12" @click="cambio=true">Generar factura</button>
         </div>
     </div>
     <div>
@@ -69,8 +204,9 @@ Vue.component('component-store', {
     </div>
     </div>
 
+    <div class="table-responsive" v-if="Object.keys(this.shoppingCart).length>0">
     <h2>Productos agregados</h2>
-    <div class="table-responsive">
+    {{total}}
         <table class="table table-striped table-sm">
             <thead>
                 <tr>
@@ -83,21 +219,21 @@ Vue.component('component-store', {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="product in shoppingCart">
+                <tr v-for="(product,index) in shoppingCart">
                     <td>{{product.id_producto}}</td>
                     <td>{{product.nombre}}</td>
                     <td>$ {{product.precio_unitario}}</td>
                     <td>{{product.cantidad}}</td>
                     <td>$ {{product.cantidad * product.precio_unitario}}</td>
-                    <td>$ remove</td>
+                    <td><button class="btn btn-secondary" @click="deletToCart(index)">Quitar roducto</button></td>
                 </tr>
             </tbody>
         </table>
     </div>
+    
 </div>
     `
 })
-
 
 Vue.component('component-productos', {
     props: ['admin'],
@@ -118,8 +254,6 @@ Vue.component('component-productos', {
                     this.categorias = result
                     this.getProductos()
                 })
-
-
         },
         getProductos() {
             this.loading = true
@@ -129,11 +263,14 @@ Vue.component('component-productos', {
                     this.productos = result
                     this.loading = false;
                 })
+            console.log(Object.keys(this.productos).length);
+
         },
         deleteProduct(id) {
             this.$emit('delete-product', id)
             this.loading = true
             this.getCategorias()
+            this.getProductos()
         }
     },
     created() {
@@ -161,10 +298,10 @@ Vue.component('component-productos', {
             <h3>Productos en bodega</h3>
             <div class="text-center" v-if="loading">
                 <div class="spinner-border text-success" role="status">
-                    <span class="visually-hidden">Loading...</span>
+                    <button class="visually-hidden">Loading...</span>
                 </div>
             </div>
-            <div class="table-responsive" v-if='productos.length > 0'>
+            <div class="table-responsive" v-if='Object.keys(this.productos).length > 0'>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -188,7 +325,7 @@ Vue.component('component-productos', {
                             <td>{{producto.stock}}</td>
                             <td>{{producto.fecha_vencimiento}}</td>
                             <td>$ {{producto.precio_unitario * producto.stock}}</td>
-                            <td v-if="admin == 'true' "><a href="#">Editar</a></td>
+                            <td v-if="admin == 'true' "><a :href="'editarProducto.php?id='+producto.id_producto">Editar</a></td>
                             <td v-if="admin == 'true' ">
                                 <span class="material-icons btn" v-on:click="deleteProduct(producto.id_producto)">
                                   delete
@@ -210,7 +347,8 @@ Vue.component('component-productos', {
 new Vue({
     el: "#app",
     data: {
-        message: 'hello world'
+        usuariosEdit: false,
+        usuario: {}
     },
     methods: {
         eliminarBodega(e) {
@@ -232,6 +370,10 @@ new Vue({
             }).catch(response => {
                 console.log(response);
             })
+        },
+        loadEdit(data) {
+            console.log(data);
+            console.log(usuario);
         }
     }
 }) 

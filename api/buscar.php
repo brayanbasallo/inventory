@@ -12,7 +12,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 if ($method = "GET") {
     $buscar = $_GET['buscar'];
     $sql = "SELECT * FROM ( SELECT * FROM productos WHERE id_producto = '$buscar' OR LOWER(nombre) LIKE'%$buscar%' )AS tb
-    WHERE tb.stock > 0 AND tb.estado != 0;";
+    WHERE tb.stock > 0 AND tb.estado != 0 LIMIT 30;";
     /* echo $sql . '<br>'; */
     $exit = $obj_request->get_data($sql);
     if (count($exit) == 0) {

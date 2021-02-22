@@ -17,7 +17,7 @@ if ($method == 'POST') {
 } else {
     if ($method == "GET" && $_GET['categoria'] != '') {
         $categoria = $_GET['categoria'];
-        $sql = "SELECT * FROM productos WHERE id_categoria = $categoria";
+        $sql = "SELECT * FROM productos WHERE id_categoria = $categoria AND stock != 0";
         /* echo $sql . '<br>'; */
         $exit = $obj_request->get_data($sql);
         if (count($exit) > 0) {

@@ -36,7 +36,7 @@
                         <td><?php echo $contador ?></td>
                         <td><?php echo $bodega['nombre'] ?></td>
                         <td><?php echo $bodega['descripcion'] ?></td>
-                        <td><a href="<?php echo $bodega['id'] ?>">Editar</a></td>
+                        <td><a href="editarBodegas.php?id=<?php echo $bodega['id'] ?>">Editar</a></td>
                         <td>
                             <form action="bodegas.php?id=<?php echo $bodega['id']; ?>" method="POST">
                                 <input v-on:click="eliminarBodega" type="submit" value="delete" name="delete" class="btn p-0 material-icons ">
