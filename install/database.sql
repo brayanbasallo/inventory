@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `productos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Exporta el usuario admin
-INSERT INTO `software_proyecto`.`usuarios` (`documento`, `usuario`, `nombre`, `password`, `id_cargo`) VALUES ('1111', 'admin', 'admin', '$2y$10$VJXiBjZLMYcuLWr0q2aSNe/8mrQCw5c87rANyf2cNH14kkneIMjZe', '3');
+INSERT INTO `usuarios` (`documento`, `usuario`, `nombre`, `password`, `id_cargo`) VALUES ('1111', 'admin', 'admin', '$2y$10$VJXiBjZLMYcuLWr0q2aSNe/8mrQCw5c87rANyf2cNH14kkneIMjZe', '3');
 
 -- Volcando estructura para procedimiento software_proyecto.registrar_inicio
 DROP PROCEDURE IF EXISTS `registrar_inicio`;

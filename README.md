@@ -16,6 +16,10 @@
 
 5. seguir pasos de instalación
 
+###### usuario: admin
+
+###### contraseña: admin
+
 ---
 
 &copy; Brayan Basallo Soto
