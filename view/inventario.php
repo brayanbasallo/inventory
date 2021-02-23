@@ -1,0 +1,1 @@
+<component-productos admin="false"></component-productos>
