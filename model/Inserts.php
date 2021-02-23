@@ -23,8 +23,10 @@ class Inserts
      */
     function agregarUsuario($documento, $usuario, $nombre, $password, $id_cargo)
     {
+        $pass_encrypt = password_hash($password, PASSWORD_DEFAULT);
+
         $sql = "INSERT INTO usuarios(documento,usuario,nombre,password,id_cargo)
-                VALUES('$documento','$usuario','$nombre','$password','$id_cargo')";
+                VALUES('$documento','$usuario','$nombre','$pass_encrypt','$id_cargo')";
         $exit = $this->obj_admin->guardar($sql);
         return $exit;
     }

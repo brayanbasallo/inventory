@@ -53,7 +53,8 @@ class Admin
         if ($result) {
             $result = $result->fetch_all(MYSQLI_ASSOC);
             if (count($result) > 0) {
-                if ($password == $result[0]['password']) {
+                if (password_verify($password, $result[0]['password'])) {
+                    /* if ($password == $result[0]['password']) { */
                     session_start();
                     $_SESSION['usuario'] = $result;
                     header('location: caja.php');

@@ -25,7 +25,13 @@
                     <th>Cantidad</th>
                     <th>Fecha vencimiento</th>
                     <th>Dias restantes</th>
-                    <th>Quitar</th>
+                    <?php
+                    if ($_SESSION['usuario'][0]['id_cargo'] == 1 || $_SESSION['usuario'][0]['id_cargo'] == 3) {
+                    ?>
+                        <th>Quitar</th>
+                    <?php
+                    }
+                    ?>
                 </tr>
             </thead>
             <tbody>
@@ -48,11 +54,17 @@
                             <td><?php echo $alert['stock']; ?></td>
                             <td><?php echo $alert['fecha_vencimiento']; ?></td>
                             <td><?php echo $alert['dias_restantes']; ?></td>
-                            <td>
-                                <form action="alertas.php?id=<?php echo $alert['id_producto']; ?>" method="POST">
-                                    <input type="submit" value="delete" name="delete" class="btn p-0 material-icons ">
-                                </form>
-                            </td>
+                            <?php
+                            if ($_SESSION['usuario'][0]['id_cargo'] == 1 || $_SESSION['usuario'][0]['id_cargo'] == 3) {
+                            ?>
+                                <td>
+                                    <form action="alertas.php?id=<?php echo $alert['id_producto']; ?>" method="POST">
+                                        <input type="submit" value="delete" name="delete" class="btn p-0 material-icons ">
+                                    </form>
+                                </td>
+                            <?php
+                            }
+                            ?>
                         </tr>
                 <?php
                     }

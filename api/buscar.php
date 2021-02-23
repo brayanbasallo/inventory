@@ -4,6 +4,7 @@
  * @author brayan basallo soto
  * este archivo se encargara de devolver los categorias en formato json
  */
+
 header("Content-Type: application/json; charset=UTF-8");
 require('../model/Request.php');
 $obj_request = new Request;

@@ -25,35 +25,40 @@ Vue.component('component-store', {
         },
         deletToCart(index) {
             this.$delete(this.shoppingCart, index)
+            this.loadTotal()
         },
         addCart(product) {
             let nuevo = true
-            if (this.cantidad <= (product.stock * 1)) {
-                if (Object.keys(this.shoppingCart).length == 0) {
-                    product.cantidad = this.cantidad
-                    this.$set(this.shoppingCart, Object.keys(this.shoppingCart).length, product)
-                } else {
-                    for (let i = 0; i < Object.keys(this.shoppingCart).length; i++) {
-                        if (this.shoppingCart[i].id_producto == product.id_producto) {
-                            let cantidad = (this.shoppingCart[i].cantidad * 1) + (this.cantidad * 1)
-                            if (cantidad <= this.shoppingCart[i].stock) {
-                                this.shoppingCart[i].cantidad = cantidad
-                                this.shoppingCart = Object.assign({}, this.shoppingCart)
-                            } else {
-                                this.modal = `Stock limitado ya agregaste ${this.shoppingCart[i].cantidad}, solo puedes agregar ${this.shoppingCart[i].stock}, intentas agregar ${cantidad}`
-                            }
-                            nuevo = false
-                        }
-
-                    }
-                    this.loadTotal()
-                    if (nuevo) {
+            if (this.cantidad > 0) {
+                if (this.cantidad <= (product.stock * 1)) {
+                    if (Object.keys(this.shoppingCart).length == 0) {
                         product.cantidad = this.cantidad
                         this.$set(this.shoppingCart, Object.keys(this.shoppingCart).length, product)
+                    } else {
+                        for (let i = 0; i < Object.keys(this.shoppingCart).length; i++) {
+                            if (this.shoppingCart[i].id_producto == product.id_producto) {
+                                let cantidad = (this.shoppingCart[i].cantidad * 1) + (this.cantidad * 1)
+                                if (cantidad <= this.shoppingCart[i].stock) {
+                                    this.shoppingCart[i].cantidad = cantidad
+                                    this.shoppingCart = Object.assign({}, this.shoppingCart)
+                                } else {
+                                    this.modal = `Stock limitado ya agregaste ${this.shoppingCart[i].cantidad}, solo puedes agregar ${this.shoppingCart[i].stock}, intentas agregar ${cantidad}`
+                                }
+                                nuevo = false
+                            }
+
+                        }
+                        this.loadTotal()
+                        if (nuevo) {
+                            product.cantidad = this.cantidad
+                            this.$set(this.shoppingCart, Object.keys(this.shoppingCart).length, product)
+                        }
                     }
+                } else {
+                    this.modal = "No hay suficiente stock"
                 }
             } else {
-                this.modal = "No hay suficiente stock"
+                this.modal = "La cantidad de productos a agregar debe se mayor a 0"
             }
             this.loadTotal()
         },
@@ -101,6 +106,7 @@ Vue.component('component-store', {
         },
         nuevaCompra() {
             this.cambio = false
+            this.modal = false
             this.formFacturar = true
         }
     },
@@ -152,7 +158,7 @@ Vue.component('component-store', {
                     <p>{{modal}}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" @click="nuevaCompra" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
+                    <button type="button" @click="modal = false" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
                 </div>
             </div>
         </div>
@@ -347,8 +353,10 @@ Vue.component('component-productos', {
 new Vue({
     el: "#app",
     data: {
-        usuariosEdit: false,
-        usuario: {}
+        facturas: {},
+        factura: false,
+        detallesFactura: {},
+        facturaActiva: {}
     },
     methods: {
         eliminarBodega(e) {
@@ -371,9 +379,42 @@ new Vue({
                 console.log(response);
             })
         },
-        loadEdit(data) {
-            console.log(data);
-            console.log(usuario);
+        cargarFactura() {
+            let url = '../api/facturas/';
+            fetch(url).then(response => response.json())
+                .then(result => {
+                    this.facturas = result
+                })
+        },
+        mostrarFactura(factura) {
+            let url = '../api/facturas/' + factura.id_factura;
+            this.factura = true
+            this.facturaActiva = factura
+            fetch(url).then(response => response.json())
+                .then(result => {
+
+                    this.detallesFactura = result
+                    console.log(this.detallesFactura);
+                })
         }
+    },
+    filters: {
+        diaFacturacion: function (value) {
+            const event = new Date(value);
+            const options = { month: 'long', year: 'numeric', day: 'numeric' };
+            let date = event.toLocaleDateString('es', options).replace(/ de /g, '/')
+            return date;
+        },
+        horaFacturacion: function (value) {
+            const event = new Date(value);
+            const time = event.toLocaleTimeString('en-US');
+            return time
+        },
+        moneyFormat: function (value) {
+            return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'COP' }).format(value);
+        }
+    },
+    created() {
+        this.cargarFactura()
     }
-}) 
+})

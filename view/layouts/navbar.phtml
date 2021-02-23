@@ -43,15 +43,17 @@
                         Alertas
                     </a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link d-flex align-items-center" href="productos.php">
-                        <span data-feather="users"></span>
-                        <span class="material-icons">
-                            settings
-                        </span>
-                        Administracion
-                    </a>
-                </li>
+                <?php if ($_SESSION['usuario'][0]['id_cargo'] == 1 || $_SESSION['usuario'][0]['id_cargo'] == 3) { ?>
+                    <li class="nav-item ">
+                        <a class="nav-link d-flex align-items-center" href="productos.php">
+                            <span data-feather="users"></span>
+                            <span class="material-icons">
+                                settings
+                            </span>
+                            Administracion
+                        </a>
+                    </li>
+                <?php } ?>
                 <li class="nav-item ">
                     <a class="nav-link d-flex align-items-center" href="facturas.php">
                         <span data-feather="users"></span>

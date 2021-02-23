@@ -44,37 +44,5 @@
         </div>
     </form>
 </div>
-<!-- <div class="row">
-    <h4>Traer productos</h4>
-    <div class="m-2">
-        <label for="">Seleccionar bodega</label>
-        <select name=""  class="form-select">
-            <option value="null">Seleccionar</option>
-        </select>
-    </div>
-</div>
-<div>
-    <div class="row mt-4">
-        <h3>Productos en bodega</h3>
-        <div class="table-responsive">
-            <table class="table table-striped table-sm">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Lote</th>
-                        <th>Nombre</th>
-                        <th>Precio Unidad</th>
-                        <th>Cantidad</th>
-                        <th>Fecha de vencimiento</th>
-                        <th>Total</th>
-                        <th>Quitar</th>
-                    </tr>
-                </thead>
-                <tbody>
 
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div> -->
 <component-productos @delete-product="deleteProduct" admin="true"></component-productos>

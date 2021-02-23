@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/dashboard.css">
     <script src="../js/vue.js"></script>
-    <script src="https://unpkg.com/@trevoreyre/autocomplete-vue"></script>
+    <!-- <script src="https://unpkg.com/@trevoreyre/autocomplete-vue"></script> -->
     <title>Inventario</title>
 </head>
 
