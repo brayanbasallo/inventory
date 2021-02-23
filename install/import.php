@@ -63,7 +63,7 @@ if ($connection) {
             ";
             fwrite($miArchivo, $php);
             fclose($miArchivo);
-            // rmDir_rf('../install');
+            rmDir_rf('../install'); //remueve archivos
             echo json_encode(["status" => 200, "message" => "Las tablas se han creado correctamente"]);
         } else {
             echo json_encode(["status" => 500, "message" => "Las tablas se han creado correctamente"]);
