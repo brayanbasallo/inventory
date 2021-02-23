@@ -12,8 +12,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-
-
 -- Volcando estructura para tabla software_proyecto.cargos
 DROP TABLE IF EXISTS `cargos`;
 CREATE TABLE IF NOT EXISTS `cargos` (
@@ -108,7 +106,8 @@ CREATE TABLE `listar_facturas` (
 	`id_factura` VARCHAR(15) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
 	`nombre` VARCHAR(25) NOT NULL COLLATE 'latin1_bin',
 	`fecha` DATETIME NOT NULL,
-	`saldo_total` INT(10) NOT NULL
+	`saldo_total` INT(10) NOT NULL,
+	`descuento` INT(10) NOT NULL
 ) ENGINE=MyISAM;
 
 -- Volcando estructura para tabla software_proyecto.logins
@@ -141,8 +140,8 @@ CREATE TABLE IF NOT EXISTS `productos` (
   CONSTRAINT `productos_categorias` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- La exportación de datos fue deseleccionada.
-INSERT INTO `software_proyecto`.`usuarios` (`documento`, `usuario`, `nombre`, `password`, `id_cargo`) VALUES ('11231312', 'admin', 'admin', 'admin', '3');
+-- Exporta el usuario admin
+INSERT INTO `software_proyecto`.`usuarios` (`documento`, `usuario`, `nombre`, `password`, `id_cargo`) VALUES ('1111', 'admin', 'admin', '$2y$10$VJXiBjZLMYcuLWr0q2aSNe/8mrQCw5c87rANyf2cNH14kkneIMjZe', '3');
 
 -- Volcando estructura para procedimiento software_proyecto.registrar_inicio
 DROP PROCEDURE IF EXISTS `registrar_inicio`;
@@ -175,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `documento` int NOT NULL AUTO_INCREMENT,
   `usuario` varchar(100) CHARACTER SET latin2 COLLATE latin2_bin NOT NULL,
   `nombre` varchar(25) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
-  `password` varchar(20) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  `password` varchar(100) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
   `id_cargo` int NOT NULL,
   `lugar_recidencia` int DEFAULT NULL,
   PRIMARY KEY (`documento`),
@@ -185,7 +184,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- La exportación de datos fue deseleccionada.
-INSERT INTO `software_proyecto`.`usuarios` (`documento`, `usuario`, `nombre`, `password`, `id_cargo`) VALUES ('1111111', 'Admin', 'Admin', 'admin', '3');
+
 -- Volcando estructura para disparador software_proyecto.decrementar_producto_stock
 DROP TRIGGER IF EXISTS `decrementar_producto_stock`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
@@ -200,7 +199,7 @@ SET SQL_MODE=@OLDTMP_SQL_MODE;
 DROP VIEW IF EXISTS `listar_facturas`;
 -- Eliminando tabla temporal y crear estructura final de VIEW
 DROP TABLE IF EXISTS `listar_facturas`;
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `listar_facturas` AS select `facturas`.`id_factura` AS `id_factura`,`usuarios`.`nombre` AS `nombre`,`facturas`.`fecha` AS `fecha`,`facturas`.`saldo_total` AS `saldo_total` from (`facturas` join `usuarios`) where (`usuarios`.`documento` = `facturas`.`id_usuario`);
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `listar_facturas` AS select `facturas`.`id_factura` AS `id_factura`,`usuarios`.`nombre` AS `nombre`,`facturas`.`fecha` AS `fecha`,`facturas`.`saldo_total` AS `saldo_total`,`facturas`.`descuento` AS `descuento` from (`facturas` join `usuarios`) where (`usuarios`.`documento` = `facturas`.`id_usuario`) order by `facturas`.`fecha` desc;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
