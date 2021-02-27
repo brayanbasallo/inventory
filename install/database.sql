@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `categorias` (
 -- Volcando estructura para tabla software_proyecto.detalle_ventas
 CREATE TABLE IF NOT EXISTS `detalle_ventas` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `id_factura` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `id_factura` varchar(15) NOT NULL,
   `id_producto` int NOT NULL,
   `cantidad_productos` int NOT NULL,
   `valor_total` int NOT NULL,

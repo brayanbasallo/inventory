@@ -231,7 +231,7 @@ Vue.component('component-store', {
                     <td>$ {{product.precio_unitario}}</td>
                     <td>{{product.cantidad}}</td>
                     <td>$ {{product.cantidad * product.precio_unitario}}</td>
-                    <td><button class="btn btn-secondary" @click="deletToCart(index)">Quitar roducto</button></td>
+                    <td><button class="btn btn-secondary" @click="deletToCart(index)">Quitar producto</button></td>
                 </tr>
             </tbody>
         </table>
