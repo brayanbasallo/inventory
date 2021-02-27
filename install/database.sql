@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `detalle_ventas` (
 
 -- Volcando estructura para tabla software_proyecto.facturas
 CREATE TABLE IF NOT EXISTS `facturas` (
-  `id_factura` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `id_factura` varchar(15) NOT NULL,
   `descuento` int NOT NULL,
   `id_usuario` varchar(20) NOT NULL,
   `fecha` datetime NOT NULL,
