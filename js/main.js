@@ -22,12 +22,16 @@ Vue.component('component-store', {
                 .then(result => {
                     this.products = result.products
                 })
+            this.loadTotal()
+
         },
         deletToCart(index) {
             this.$delete(this.shoppingCart, index)
             this.loadTotal()
         },
         addCart(product) {
+            this.loadTotal()
+
             let nuevo = true
             if (this.cantidad > 0) {
                 if (this.cantidad <= (product.stock * 1)) {
@@ -72,6 +76,8 @@ Vue.component('component-store', {
             this.total = total - porcentaje
         },
         finailizarCompra() {
+            this.loadTotal()
+
             let url = '../api/facturar.php'
             let data = {
                 total: this.total,
@@ -212,7 +218,6 @@ Vue.component('component-store', {
 
     <div class="table-responsive" v-if="Object.keys(this.shoppingCart).length>0">
     <h2>Productos agregados</h2>
-    {{total}}
         <table class="table table-striped table-sm">
             <thead>
                 <tr>

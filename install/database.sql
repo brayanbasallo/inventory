@@ -154,13 +154,13 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 -- La exportación de datos fue deseleccionada.
 
 -- Volcando estructura para disparador software_proyecto.decrementar_producto_stock
-SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
+
 DELIMITER //
 CREATE TRIGGER `decrementar_producto_stock` AFTER INSERT ON `detalle_ventas` FOR EACH ROW BEGIN
 	UPDATE productos SET stock = stock - NEW.cantidad_productos WHERE NEW.id_producto = id_producto;
 END//
 DELIMITER ;
-SET SQL_MODE=@OLDTMP_SQL_MODE;
+
 
 -- Volcando estructura para vista software_proyecto.listar_facturas
 -- Eliminando tabla temporal y crear estructura final de VIEW
