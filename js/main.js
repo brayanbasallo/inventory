@@ -69,8 +69,12 @@ Vue.component('component-store', {
         loadTotal() {
             let total = 0
             let porcentaje = parseFloat(`0.${this.descuento}`)
-            for (let i = 0; i < Object.keys(this.shoppingCart).length; i++) {
-                total += this.shoppingCart[i].precio_unitario * this.shoppingCart[i].cantidad
+            if (Object.keys(this.shoppingCart).length > 0) {
+                for (let i = 0; i < Object.keys(this.shoppingCart).length; i++) {
+                    total += this.shoppingCart[i].precio_unitario * this.shoppingCart[i].cantidad
+                }
+            } else {
+                total = 0;
             }
             porcentaje = total * porcentaje;
             this.total = total - porcentaje

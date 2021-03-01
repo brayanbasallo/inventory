@@ -11,7 +11,9 @@ if ($method == "POST") {
         $obj_inserts = new Inserts;
         $nombre = $_POST['nombre'];
         $descripcion = $_POST['descripcion'];
-        $obj_inserts->agregarBodega($nombre, $descripcion);
+        if ($nombre != "") {
+            $obj_inserts->agregarBodega($nombre, $descripcion);
+        }
     }
     if (isset($_POST['delete'])) {
         include('../model/Delete.php');

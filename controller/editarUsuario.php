@@ -10,10 +10,13 @@ if ($method == "POST") {
     $name = $_POST['name'];
     $document = $_GET['id'];
     $password = $_POST['password'];
-    $sql = "UPDATE usuarios SET nombre = '$name', password = '$password' WHERE documento = '$document'";
-    $exit = $obj_admin->guardar($sql);
-    if ($exit) {
-        header('Location: usuarios.php');
+    if ($password != "") {
+        $pass_encrypt = password_hash($password, PASSWORD_DEFAULT);
+        $sql = "UPDATE usuarios SET nombre = '$name', password = '$pass_encrypt' WHERE documento = '$document'";
+        $exit = $obj_admin->guardar($sql);
+        if ($exit) {
+            header('Location: usuarios.php');
+        }
     }
 }
 $sql = "SELECT * FROM usuarios WHERE documento  = $id";

@@ -74,7 +74,7 @@ if ($connection) {
             $obj_insert = new Inserts;
             $obj_insert->agregarUsuario($admin_document, $admin_user, $admin_name, $admin_password, 3);
 
-            rmDir_rf('../install'); //remueve archivos
+            //rmDir_rf('../install'); //remueve archivos
             echo json_encode(["status" => 200, "message" => "Las tablas se han creado correctamente"]);
         } else {
             echo json_encode(["status" => 500, "message" => "No se ha podido conectar a la base de datos"]);

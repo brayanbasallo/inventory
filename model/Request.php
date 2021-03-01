@@ -18,7 +18,11 @@ class Request
         if ($order) $sql .= " ORDER BY $order";
         $connection = $this->obj_admin->return_connection();
         $data = $connection->query($sql);
-        $exit = $data->fetch_all(MYSQLI_ASSOC);
+        if ($data != false) {
+            $exit = $data->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $exit = [];
+        }
         $connection->close();
         return $exit;
     }
@@ -32,7 +36,11 @@ class Request
         $connection = $this->obj_admin->return_connection();
         $sql = "$sql";
         $results = $connection->query($sql);
-        $exit = $results->fetch_all(MYSQLI_ASSOC);
+        if ($results != false) {
+            $exit = $results->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $exit = [];
+        }
         $connection->close();
         return $exit;
     }

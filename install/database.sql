@@ -27,7 +27,7 @@ INSERT INTO `cargos` (`id_cargo`, `nombre_cargo`) VALUES ('3', 'Admin');
 -- Volcando estructura para tabla software_proyecto.categorias
 CREATE TABLE IF NOT EXISTS `categorias` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(25) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  `nombre` varchar(25) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL UNIQUE,
   `descripcion` text CHARACTER SET latin1 COLLATE latin1_bin,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -160,6 +160,7 @@ CREATE TRIGGER `decrementar_producto_stock` AFTER INSERT ON `detalle_ventas` FOR
 	UPDATE productos SET stock = stock - NEW.cantidad_productos WHERE NEW.id_producto = id_producto;
 END//
 DELIMITER ;
+
 
 
 -- Volcando estructura para vista software_proyecto.listar_facturas

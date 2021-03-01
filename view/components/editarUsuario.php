@@ -11,7 +11,7 @@
             </div>
             <div class="form-group">
                 <label for="">Contraseña</label>
-                <input name="password" class="form-control" type="password" value="<?php echo $usuario[0]['password'] ?>" placeholder="Nuevo contraseña">
+                <input name="password" class="form-control" type="password" value="" placeholder="Nuevo contraseña">
             </div>
         </div>
         <div class="modal-footer">

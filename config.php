@@ -2,5 +2,5 @@
             $host = 'localhost';
             $user = 'root';
             $password = 'toor';
-            $data_base = 'final';
+            $data_base = 'db_prueba_proyecto';
             
