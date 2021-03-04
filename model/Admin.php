@@ -13,12 +13,6 @@ class Admin
         if (session_status() === PHP_SESSION_ACTIVE) {
             $this->verificar_login();
         }
-
-        /* include_once('../config.php');
-        $this->host = $host;
-        $this->user = $user;
-        $this->password = $password;
-        $this->data_base = $data_base; */
         $this->loadDataConnection();
     }
     /**
@@ -42,6 +36,8 @@ class Admin
     }
     /**
      * esta funcion se encarga de hacer el login del usuario
+     * @param string nombre del usuario
+     * @param string contraseña del usuario
      * @return string si no se autentica correctamente devuelve el motivo
      */
     function login($usuario, $password)
@@ -70,7 +66,7 @@ class Admin
         return $exit;
     }
     /**
-     * esta funcion se encarga de terminar la session
+     * esta funcion se encarga de terminar la session y desloguear al usuario
      */
     function sign_out()
     {
@@ -89,6 +85,7 @@ class Admin
     }
     /**
      * ejecuta el un sql para guardar datos
+     * @param string $sql 
      * 
      */
     function guardar($sql)

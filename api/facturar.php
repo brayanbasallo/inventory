@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @author brayan basallo soto
+ * esta función se encarga de registrar la facturas y de devolver su respectiva respuesta
+ */
 header("Content-Type: application/json; charset=UTF-8");
 include('../model/Admin.php');
 session_start();

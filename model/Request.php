@@ -10,6 +10,7 @@ class Request
     /**
      * retorna los datos de la tabla de la base de datos que le pasemos
      * @param string nombre de la tabla
+     * @param string (optional) nombre de la columna por la cual se quiere ordenar 
      * @return array $result con los datos de la tabla
      */
     function get_all_table_data($table, $order = false)

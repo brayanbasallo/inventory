@@ -1,5 +1,5 @@
 <h1>Historial de ventas</h1>
-<div class="table-responsive">
+<div class="table-responsive" v-if="Object.keys(facturas).length > 0">
     <table class="table table-striped table-sm" id="table">
         <thead>
             <tr>
@@ -20,6 +20,9 @@
             </tr>
         </tbody>
     </table>
+</div>
+<div v-else class="text-center">
+    <p>Aun no tienes facturas registradas, genera tu factura desde <a href="caja.php">caja</a></p>
 </div>
 <div class="modal d-block border-none" @click="factura = false" tabindex="-1" v-if="factura" style="background:#000b1bbf">
     <div class="modal-dialog">

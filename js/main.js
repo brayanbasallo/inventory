@@ -186,7 +186,7 @@ Vue.component('component-store', {
         <div class="input-group">
             <input v-model="search" @keyup="searchProduct" type="search" class="form-control rounded" placeholder="Buscar" aria-label="Search"
             aria-describedby="search-addon" />
-            <button type="button" class="btn btn-outline-primary">buscar</button>
+            <button type="button" @click="searchProduct" class="btn btn-outline-primary">buscar</button>
         </div>
         <div class="form-group">
             <label for="">Descuento en %</label>
@@ -196,7 +196,7 @@ Vue.component('component-store', {
             <button class="btn btn-primary col-12" @click="cambio=true">Generar factura</button>
         </div>
     </div>
-    <div>
+    <div v-if="Object.keys(this.products).length>0"">
         <h2>Agregar producto</h2>
         <div class="table-responsive">
         <table class="table table-striped table-sm">
@@ -221,9 +221,12 @@ Vue.component('component-store', {
                 </tr>
             </tbody>
         </table>
+        </div>
+    
     </div>
+    <div v-else class="text-center">
+        <p>busca con el codigo de tu producto, si no tienes productos agregalos en <a href="productos.php">Productos</a></p>
     </div>
-
     <div class="table-responsive" v-if="Object.keys(this.shoppingCart).length>0">
     <h2>Productos agregados</h2>
         <table class="table table-striped table-sm">

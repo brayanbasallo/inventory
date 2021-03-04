@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @author brayan basallo soto
+ * controlado de bodegas-categorias
+ */
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 include('../model/Request.php');
 $obj_request = new Request;

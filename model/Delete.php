@@ -36,6 +36,8 @@ class Delete
     }
     /**
      * Cambia el estado de los producto para que se interpreten como eliminados 
+     * @param string id del producto
+     * @return boolean confirma o no si se realizo la acción 
      */
     function deleteProduct($id)
     {

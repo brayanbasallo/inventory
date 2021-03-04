@@ -49,7 +49,7 @@ new Vue({
                         this.error = result.message
                     }).catch(response => {
                         this.spinners = false
-                        this.error = "Por favor llena todos los campos"
+                        this.error = "Por favor verifica los campos de conexión a la base de datos"
                     })
             }
 
