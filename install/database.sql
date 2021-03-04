@@ -155,11 +155,6 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 
 -- Volcando estructura para disparador software_proyecto.decrementar_producto_stock
 
-DELIMITER //
-CREATE TRIGGER `decrementar_producto_stock` AFTER INSERT ON `detalle_ventas` FOR EACH ROW BEGIN
-	UPDATE productos SET stock = stock - NEW.cantidad_productos WHERE NEW.id_producto = id_producto;
-END//
-DELIMITER ;
 
 
 

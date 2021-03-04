@@ -88,6 +88,8 @@ Vue.component('component-store', {
                 descuento: this.descuento,
                 productos: this.shoppingCart
             }
+            console.log(data)
+            debugger;
             if (Object.keys(this.shoppingCart).length > 0) {
                 fetch(url, {
                     method: "POST",

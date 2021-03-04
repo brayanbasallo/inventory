@@ -20,6 +20,9 @@ if ($exit) {
         $total_producto = $product->cantidad * $product->precio_unitario;
         $sql = "INSERT INTO detalle_ventas(id_factura,id_producto,cantidad_productos,valor_total) VALUES('$factura','$product->id_producto','$product->cantidad','$total_producto')";
         $exit = $obj_admin->guardar($sql);
+        $stock = $product->stock -  $product->cantidad;
+        $sql = "UPDATE productos SET stock = $stock  WHERE id_producto = $product->id_producto";
+        $obj_admin->guardar($sql);
     }
 } else {
     echo json_encode(['response' => 'No se pudo crear la factura', 'status' => 500]);
