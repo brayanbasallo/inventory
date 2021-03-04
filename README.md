@@ -2,6 +2,8 @@
 
 ### Instalar
 
+El sistema no requiere que se cree la base de datos desde el administrador de base de datos, el solicitara los datos necesarios para crear la configuración necesaria para su funcionamiento en el instalador.
+
 #### local
 
 1. Descargar
