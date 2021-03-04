@@ -88,10 +88,8 @@ Vue.component('component-store', {
                 descuento: this.descuento,
                 productos: this.shoppingCart
             }
-            this.total = 0
-            this.descuento = 0
-            this.shoppingCart = {}
             if (Object.keys(this.shoppingCart).length > 0) {
+
                 fetch(url, {
                     method: "POST",
                     headers: {
@@ -113,6 +111,9 @@ Vue.component('component-store', {
                     }).catch(response => {
                         console.log(response);
                     })
+                this.total = 0
+                this.descuento = 0
+                this.shoppingCart = {}
             } else {
                 this.response = "Tienes que agregar productos para poder continuar"
             }
