@@ -2,5 +2,5 @@
             $host = 'localhost';
             $user = 'root';
             $password = 'toor';
-            $data_base = 'final_01';
+            $data_base = 'bd_manuales';
             
