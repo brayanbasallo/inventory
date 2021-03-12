@@ -1,5 +1,7 @@
 <?php
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
+$_SESSION['usuario'][0]['id_cargo'] == 1 || $_SESSION['usuario'][0]['id_cargo'] == 3 ? '' : header('Location: caja.php'); //verifica que el usuario logueado tenga permisos para entrar
+
 include('../model/Request.php');
 $obj_request = new Request;
 $method = $_SERVER['REQUEST_METHOD'];
@@ -13,7 +15,8 @@ if ($method == "POST") {
         $usuario = $_POST['usuario'];
         $id_cargo = $_POST['cargo'];
         $password = $_POST['password'];
-        $nuevo_usuario = $obj_Inserts->agregarUsuario($documento, $usuario, $nombre, $password, $id_cargo);
+        $mun_id = $_POST['mun_id'];
+        $nuevo_usuario = $obj_Inserts->agregarUsuario($documento, $usuario, $nombre, $password, $id_cargo, $mun_id);
     }
     if (isset($_POST['delete'])) {
         include('../model/Delete.php');

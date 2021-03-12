@@ -5,6 +5,7 @@
  * controlado de bodegas-categorias
  */
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
+$_SESSION['usuario'][0]['id_cargo'] == 1 || $_SESSION['usuario'][0]['id_cargo'] == 3 ? '' : header('Location: caja.php'); //verifica que el usuario logueado tenga permisos para entrar
 include('../model/Request.php');
 $obj_request = new Request;
 $method = $_SERVER['REQUEST_METHOD'];

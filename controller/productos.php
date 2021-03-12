@@ -1,7 +1,7 @@
 <?php
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 include('../model/Request.php');
-$_SESSION['usuario'][0]['id_cargo'] == 2 || $_SESSION['usuario'][0]['id_cargo'] == 3 ? '' : header('Location: caja.php'); //verifica que el usuario logueado tenga permisos para entrar
+$_SESSION['usuario'][0]['id_cargo'] == 1 || $_SESSION['usuario'][0]['id_cargo'] == 3 ? '' : header('Location: caja.php'); //verifica que el usuario logueado tenga permisos para entrar
 $obj_request = new Request;
 $method = $_SERVER['REQUEST_METHOD'];
 if ($method == 'POST') {

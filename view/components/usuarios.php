@@ -37,6 +37,22 @@
         <div class="form-group"><label for="">Contraseña</label>
             <input type="password" name="password" placeholder="contraseña" class="form-control" required>
         </div>
+        <div class="form-group d-flex">
+            <div class="col-sm-6">
+                <label for="">Departamento</label>
+                <select @change="load_municipios" class="form-select" v-model="dep_select" name="" id="">
+                    <option value="" disabled>Seleccionar</option>
+                    <option :value="dep.id" v-for="dep in departamentos">{{dep.estado}}</option>
+                </select>
+            </div>
+            <div class="col-sm-6" v-if="Object.keys(municipios).length > 0">
+                <label for="">municipio</label>
+                <select class="form-select" name="mun_id" id="">
+                    <option value="" disabled>Seleccionar</option>
+                    <option :value="mun.id_mcpio" v-for="mun in municipios">{{mun.nombre_mcpio}}</option>
+                </select>
+            </div>
+        </div>
         <div class="form-group mt-2">
             <input type="submit" value="Registrar usuario" name="new" class="btn btn-primary col-12">
         </div>

@@ -19,14 +19,15 @@ class Inserts
      * @param string $nombre nombre del usuario 
      * @param string $password contraseña del usuario
      * @param int $id_cargo di del cargo del usuario
+     * @param int $id_mun id del municipio
      * @return boolean true si se incerto correctamente, false si hubo un fallo
      */
-    function agregarUsuario($documento, $usuario, $nombre, $password, $id_cargo)
+    function agregarUsuario($documento, $usuario, $nombre, $password, $id_cargo, $id_mun)
     {
         $pass_encrypt = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO usuarios(documento,usuario,nombre,password,id_cargo)
-                VALUES('$documento','$usuario','$nombre','$pass_encrypt','$id_cargo')";
+        $sql = "INSERT INTO usuarios(documento,usuario,nombre,password,id_cargo,id_municipio)
+                VALUES('$documento','$usuario','$nombre','$pass_encrypt','$id_cargo','$id_mun')";
         $exit = $this->obj_admin->guardar($sql);
         return $exit;
     }

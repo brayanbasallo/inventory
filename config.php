@@ -2,5 +2,5 @@
             $host = 'localhost';
             $user = 'root';
             $password = 'toor';
-            $data_base = 'bd_manuales';
+            $data_base = 'bs_prueba_geo';
             

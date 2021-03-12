@@ -12,7 +12,8 @@ Vue.component('component-store', {
             total: 0,
             efectivo: 0,
             formFacturar: true,
-            response: ''
+            response: '',
+
         }
     },
     methods: {
@@ -380,7 +381,10 @@ new Vue({
         facturas: {},
         factura: false,
         detallesFactura: {},
-        facturaActiva: {}
+        facturaActiva: {},
+        departamentos: "",
+        dep_select: "",
+        municipios: ""
     },
     methods: {
         eliminarBodega(e) {
@@ -420,6 +424,14 @@ new Vue({
                     this.detallesFactura = result
                     console.log(this.detallesFactura);
                 })
+        },
+        load_municipios() {
+            let url = "../api/municipios/" + this.dep_select;
+            fetch(url)
+                .then(response => response.json())
+                .then(result => {
+                    this.municipios = result;
+                })
         }
     },
     filters: {
@@ -440,5 +452,13 @@ new Vue({
     },
     created() {
         this.cargarFactura()
+
+        url = "../api/departamentos";
+        fetch(url)
+            .then(response => response.json())
+            .then(result => {
+                this.departamentos = result
+            })
+
     }
 })
